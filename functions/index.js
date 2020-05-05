@@ -4,14 +4,10 @@ const express = require("express");
 require('dotenv').config();
 
 const admin = require('./model/firebase');
-// admin.initializeApp(functions.config().firebase)
 const db = admin.firestore();
 
 const app = express();
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
 // serve
 // http://localhost:5000/boxbuyingbot/us-central1/api
 
@@ -53,7 +49,6 @@ app.get('/posttweet', async (req, res, next) => {
     const urls = items.map(x => x.data.url);
     console.log(urls)
     tweetPost(urls);
-    // レスポンスの設定
     res.send([{
       code: 200, message: 'The tweet was sent.'
     }]);
@@ -78,7 +73,6 @@ app.post('/', async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-
 });
 
 
@@ -100,7 +94,6 @@ app.post('/', async (req, res, next) => {
       id: ref.id,
       data: postData,
     });
-
   } catch (e) {
     next(e);
   }
@@ -111,15 +104,12 @@ app.put('/:id', async (req, res, next) => {
   try {
     const id = req.params.id;
     const newData = req.body;
-
     if (!id) {
       throw new Error('id is blank');
     }
     if (!newData) {
       throw new Error('data is blank');
     }
-
-    // const data = { text };
     const ref = await db
       .collection('items')
       .doc(id)
