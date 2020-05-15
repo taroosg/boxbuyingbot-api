@@ -1,12 +1,15 @@
 const functions = require('firebase-functions');
 
 const express = require("express");
+const cors = require('cors');
+
 require('dotenv').config();
 
 const admin = require('./model/firebase');
 const db = admin.firestore();
 
 const app = express();
+app.use(cors());
 
 // serve
 // http://localhost:5000/boxbuyingbot/us-central1/api
@@ -58,7 +61,7 @@ app.get('/posttweet', async (req, res, next) => {
 });
 
 // get all items
-app.post('/', async (req, res, next) => {
+app.get('/', async (req, res, next) => {
   try {
     const itemSnapshot = await db.collection('items')
       .orderBy('updated_at', 'desc')
